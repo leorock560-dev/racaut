@@ -1,28 +1,50 @@
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
+html,
 body {
-    min-height: 100%;
-    height: 100vh;
-    display: flex;
     width: 100%;
+    height: 100%;
+}
+
+body {
+    min-height: 100dvh;
+    display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     opacity: 1;
     transition: opacity 0.8s ease;
+    position: relative;
 }
+
 body.fade-out {
     opacity: 0;
 }
 
+
+/* ================================= */
+/* WHEEL FINAL POSITION CONTROLS */
+/* ================================= */
+
+/* DESKTOP */
+:root {
+    --wheel-final-x: 67%;
+    --wheel-final-y: -50%;
+    --wheel-final-scale: 1;
+    --hide-final-x: 30%;
+}
+
+
+/* MAIN ROTARACT LOGO */
 .name {
     position: absolute;
     top: 50%;
-    left: 49%;
+    left: 50%;
     width: min(760px, 92vw);
     transform: translate(-50%, -50%);
     z-index: -1;
@@ -35,28 +57,41 @@ body.fade-out {
     height: auto;
 }
 
-@keyframes reveal {
-    0% {
-        transform: translate(-5%,-50%);
-    }
 
-    50% {
-        transform: translate(-5%,-50%);
-    }
-
-    100% {
-        transform: translate(-50%,-50%);
-    }
-}
-
-.wheel {
+/* WHITE HIDING PANEL */
+.hider {
     position: absolute;
     top: 50%;
-    right: 34%;
-    height: clamp(110px, 13vw, 200px);
+    left: 50%;
+
+    width: min(800px, 100vw);
+    height: min(400px, 52vw);
+
+    background-color: white;
+
+    transform: translate(0%, -50%);
+
+    z-index: 0;
+    opacity: 1;
+
+    animation: move 6s linear forwards;
+}
+
+
+/* WHEEL */
+.wheel {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
     width: clamp(110px, 13vw, 200px);
-    z-index: 1;
-    transform: translate(50%,-50%);
+    aspect-ratio: 1;
+
+    z-index: 3;
+
+    transform: translate(-50%, -50%);
+
     animation: wheel-spin 6s linear forwards;
 }
 
@@ -66,60 +101,186 @@ body.fade-out {
     height: 100%;
 }
 
-.hider {
-    background-color: white;
-    position: absolute;
-    top: 50%;
-    right: 49%;
-    height: min(400px, 52vw);
-    width: min(800px, 100vw);
-    transform: translate(125%,-50%);
-    z-index: 0;
-    animation: move 6s linear forwards;
-}
 
-@keyframes move {
+/* ================================= */
+/* LOGO REVEAL */
+/* ================================= */
+
+@keyframes reveal {
+
     0% {
-        transform: translate(100%,-50%);
+        transform: translate(-5%, -50%);
     }
 
     50% {
-        transform: translate(100%,-50%);
+        transform: translate(-5%, -50%);
     }
 
     100% {
-        transform: translate(125%,-50%);
+        transform: translate(-50%, -50%);
     }
+
 }
 
-@keyframes wheel-spin {
+
+/* ================================= */
+/* WHITE PANEL MOVEMENT */
+/* ================================= */
+
+@keyframes move {
+
     0% {
-        transform: translate(-50%,-50%) rotate(0deg) scale(2);
+        transform: translate(0%, -50%);
     }
 
     50% {
-        transform: translate(-50%,-50%) rotate(4500deg) scale(1);
+        transform: translate(0%, -50%);
+    }
+
+    100% {
+        transform: translate(var(--hide-final-x), -50%)
+    }
+
+}
+
+
+/* ================================= */
+/* WHEEL ANIMATION */
+/* ================================= */
+
+@keyframes wheel-spin {
+
+    0% {
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg)
+            scale(2);
+    }
+
+    50% {
+        transform:
+            translate(-50%, -50%)
+            rotate(4500deg)
+            scale(1);
     }
 
     92% {
-        transform: translate(44%,-50%) rotate(9000deg) scale(1);
+        transform:
+            translate(44%, -50%)
+            rotate(9000deg)
+            scale(1);
     }
 
     100% {
-        transform: translate(50%,-50%) rotate(9000deg) scale(1);
+        transform:
+            translate(var(--wheel-final-x), var(--wheel-final-y))
+            rotate(9000deg)
+            scale(var(--wheel-final-scale));
     }
+
 }
 
+
+/* ================================= */
+/* MOBILE */
+/* ================================= */
+
 @media (max-width: 600px) {
+
     .name {
-        width: 92vw;
+        width: 100vw;
     }
 
     .wheel {
-        right: 31%;
+        width: clamp(90px, 25vw, 140px);
     }
 
     .hider {
-        height: 52vw;
+        width: 110vw;
+        height: 55vw;
     }
+
 }
+
+
+/* ================================= */
+/* VERY SMALL PHONES */
+/* ================================= */
+
+@media (max-width: 380px) {
+
+    .name {
+        width: 105vw;
+    }
+
+    .wheel {
+        width: 100px;
+    }
+
+}
+
+
+/* ================================= */
+/* TABLET */
+/* ================================= */
+
+@media (min-width: 601px) and (max-width: 1024px) {
+
+    .name {
+        width: 85vw;
+    }
+
+    .wheel {
+        width: clamp(130px, 18vw, 180px);
+    }
+
+    .hider {
+        width: 95vw;
+        height: 45vw;
+    }
+
+    /* CHANGE THESE */
+    :root {
+        --wheel-final-x: 63%;
+        --wheel-final-y: -50%;
+        --wheel-final-scale: 1;
+        --hide-final-x:30%;
+    }
+
+}
+:root {
+    --wheel-final-x: 75%;
+    --wheel-final-y: -50%;
+    --hide-final-x:20%;
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+
+    :root {
+        --wheel-final-x: 63%;
+        --wheel-final-y: -50%;
+        --hide-final-x:25%;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    :root {
+        --wheel-final-x: 55%;
+        --wheel-final-y: -50%;
+        --hide-final-x:25%;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    :root {
+        --wheel-final-x: 50%;
+        --wheel-final-y: -50%;
+        --hide-final-x:30%;
+    }
+
+}
+
