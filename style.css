@@ -1,0 +1,125 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100%;
+    height: 100vh;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 0.8s ease;
+}
+body.fade-out {
+    opacity: 0;
+}
+
+.name {
+    position: absolute;
+    top: 50%;
+    left: 49%;
+    width: min(760px, 92vw);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    animation: reveal 6s linear forwards;
+}
+
+.name img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@keyframes reveal {
+    0% {
+        transform: translate(-5%,-50%);
+    }
+
+    50% {
+        transform: translate(-5%,-50%);
+    }
+
+    100% {
+        transform: translate(-50%,-50%);
+    }
+}
+
+.wheel {
+    position: absolute;
+    top: 50%;
+    right: 34%;
+    height: clamp(110px, 13vw, 200px);
+    width: clamp(110px, 13vw, 200px);
+    z-index: 1;
+    transform: translate(50%,-50%);
+    animation: wheel-spin 6s linear forwards;
+}
+
+.wheel img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.hider {
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    right: 49%;
+    height: min(400px, 52vw);
+    width: min(800px, 100vw);
+    transform: translate(125%,-50%);
+    z-index: 0;
+    animation: move 6s linear forwards;
+}
+
+@keyframes move {
+    0% {
+        transform: translate(100%,-50%);
+    }
+
+    50% {
+        transform: translate(100%,-50%);
+    }
+
+    100% {
+        transform: translate(125%,-50%);
+    }
+}
+
+@keyframes wheel-spin {
+    0% {
+        transform: translate(-50%,-50%) rotate(0deg) scale(2);
+    }
+
+    50% {
+        transform: translate(-50%,-50%) rotate(4500deg) scale(1);
+    }
+
+    92% {
+        transform: translate(44%,-50%) rotate(9000deg) scale(1);
+    }
+
+    100% {
+        transform: translate(50%,-50%) rotate(9000deg) scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+    .name {
+        width: 92vw;
+    }
+
+    .wheel {
+        right: 31%;
+    }
+
+    .hider {
+        height: 52vw;
+    }
+}

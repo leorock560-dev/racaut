@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team - Rotaract Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #FFA500; --dark: #1a1a1a; --light: #fafafa; --gray: #e5e5e5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { color: var(--dark); background: #fff; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .btn, button, .card, .event-card, .member, .content-box, .event-content, .featured, .project-modal, form, .location-map { border-radius: 16px; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 1.5rem 5%; border-bottom: 1px solid transparent; transition: 0.3s; display: flex; justify-content: space-between; align-items: center; }
+        nav.scrolled { padding: 1rem 5%; border-bottom: 1px solid var(--gray); }
+        .logo { font-size: 1.5rem; font-weight: 800; } .logo span { color: var(--primary); }
+        .menu { display: flex; gap: 2rem; list-style: none; }
+        .menu a { font-weight: 500; font-size: 0.95rem; position: relative; }
+        .menu a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary); transition: 0.3s; }
+        .menu a:hover::after, .menu a.active::after { width: 100%; }
+        .mobile-toggle { display: none; cursor: pointer; font-size: 1.5rem; }
+        
+        .page-header { padding: 8rem 5% 4rem; text-align: center; background: var(--light); }
+        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        
+        section { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; }
+        .member { text-align: center; transition: 0.3s; padding: 20px; border-radius: 20px;}
+        .member:hover { transform: translateY(-10px); }
+        .member img { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .member:hover img { border-color: var(--primary); }
+        .role { color: var(--primary); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+        .bio { font-size: 0.9rem; color: #666; }
+
+        footer { background: linear-gradient(180deg, #101010 0%, #1a1a1a 100%); color: #fff; padding: 4rem 5% 2rem; margin-top: 4rem; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.7fr 1fr 1fr 1.3fr; gap: 3rem; }
+        .footer-brand h3 { font-size: clamp(1.8rem, 2vw, 2.3rem); font-weight: 800; margin-bottom: 0.6rem; }
+        .footer-brand h3 span { color: var(--primary); }
+        .footer-brand p { color: rgba(255,255,255,0.7); margin-bottom: 0.8rem; }
+        .footer-text { max-width: 420px; }
+        .footer-links h4 { font-size: 1.05rem; margin-bottom: 1rem; color: #fff; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a { color: rgba(255,255,255,0.7); }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-bottom { max-width: 1400px; margin: 0 auto; text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+
+        @media (max-width: 768px) {
+            .menu { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background: #fff; flex-direction: column; padding: 5rem 2rem; transition: 0.3s; }
+            .menu.active { right: 0; }
+            .mobile-toggle { display: block; }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+            .footer-brand { grid-column: 1 / -1; }
+        }
+        @media (max-width: 480px) {
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="logo"><img src="1000189154.svg" alt="Rotaract Logo" style="height: 60px; width: 180px;"></a>
+        <div class="mobile-toggle" onclick="toggleMenu()">☰</div>
+        <ul class="menu" id="navMenu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="team.html" class="active">Team</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>Meet Our Team</h1>
+        <p>The passionate individuals driving change and leading our mission.</p>
+    </div>
+
+    <section>
+        <h2 style="text-align: center; margin-bottom: 3rem;">Leadership Team</h2>
+        <div class="team-grid">
+            <div class="member">
+                <img src="rahul.jpeg" style="object-position: 100% -0%;">
+                <h3>Rahul Ramesh</h3>
+                <span class="role">President</span>
+                <p class="bio">Final year Mechanical Engineering student with a passion for community service.</p>
+            </div>
+            <div class="member">
+                <img src="anbu.jpeg" style="object-position: 0% -0%;">
+                <h3>Anbalagan D</h3>
+                <span class="role">Treasurer</span>
+                <p class="bio">An Aviator with skills to change the world.</p>
+            </div>
+            <div class="member">
+                <img src="navaneethan.jpeg" style="object-position: 0% -20%;">
+                <h3>Navaneethan R </h3>
+                <span class="role">Secretary - Projects</span>
+                <p class="bio">Student with a passion for community service.</p>
+            </div>
+            <div class="member">
+                <img src="lena.jpeg" style="object-position: 0% 20%;">
+                <h3>Lakshamanan S</h3>
+                <span class="role">Secretary - General</span>
+                <p class="bio">Engineering student with interest in international affairs</p>
+            </div>
+            <div class="member">
+                <img src="sameeha.jpeg">
+                <h3>Sameeha S N</h3>
+                <span class="role">Secretary - Admin</span>
+                <p class="bio">AI&ML student with entrepreneurship interest.</p>
+            </div>
+            <div class="member">
+                <img src="saiganesh.jpeg" style="object-position: 0% -0%;">
+                <h3>IPP. Er. S. Sai Ganesh</h3>
+                <span class="role">Club Trainer</span>
+                <p class="bio">A mentor who transforms experience into knowledge and knowledge into capable leaders.</p>
+            </div>
+            <div class="member">
+                <img src="mani.jpeg">
+                <h3>Mani Prahaspathy</h3>
+                <span class="role">Faculty Advisor</span>
+                <p class="bio">A guiding force who nurtures young leaders, inspires service, and empowers students to create meaningful change..</p>
+            </div>
+            <div class="member">
+                <img src="WhatsApp Image 2026-09-16 at 9.19.05 PM.jpeg" style="object-position: 0% -0%;">
+                <h3>Senthil R</h3>
+                <span class="role">Vice President - 1</span>
+                <p class="bio">Civil Engineering student with deep desire for knowledge</p>
+            </div>
+            <div class="member">
+                <img src="rishi.jpeg" style="object-position: 0% 20%;">
+                <h3>Rishi Ganesh</h3>
+                <span class="role">Vice president - 2</span>
+                <p class="bio"> Innovating Technocrat seeking wisdom.</p>
+            </div>
+            <div class="member">
+                <img src="santhosh.png">
+                <h3>Santhosh K</h3>
+                <span class="role">Joint Secretary - 1</span>
+                <p class="bio">An expect designer who makes the society colourful.</p>
+            </div>
+            <div class="member">
+                <img src="kanisha.jpeg" style="object-position: 0% 30%;">
+                <h3>Kanisha K</h3>
+                <span class="role">Joint Secretary - 2</span>
+                <p class="bio">A student who works for women empowerment.</p>
+            </div>
+            <div class="member">
+                <img src="ponvarnika.jpeg" style="object-position: 30%;">
+                <h3>Pon Varnika I</h3>
+                <span class="role">Joint Secretary - 3</span>
+                <p class="bio">An Engineering with interest in societies development.</p>
+            </div>
+            <div class="member">
+                <img src="varshini.jpeg">
+                <h3>Varshini R</h3>
+                <span class="role">Joint Secretary - 4</span>
+                <p class="bio">A student who has the ability to develop the community.</p>
+            </div>
+            <div class="member">
+                <img src="arri.jpeg" style="object-position: 0% -0%;">
+                <h3>Arikaran C</h3>
+                <span class="role">Sub Treasurer - 1</span>
+                <p class="bio">An energetic person who can change the entire mood of people</p>
+            </div>
+            <div class="member">
+                <img src="sanjai1.jpeg">
+                <h3>Sanjai S</h3>
+                <span class="role">Sub treasurer - 2</span>
+                <p class="bio">An Information Technocrat who has the ability to plan anything.</p>
+            </div>
+            <div class="member">
+                <img src="nithish.jpeg" style="object-position: 0% 20%;">
+                <h3>Nithish S</h3>
+                <span class="role">Director - Club Service</span>
+                <p class="bio">A student with enormous leadership skills.
+                </p>
+            </div>
+            <div class="member">
+                <img src="navitha.jpeg" style="object-position: 0% 20%;">
+                <h3>Navitha L</h3>
+                <span class="role">Director - Club Service</span>
+                <p class="bio">A passionate contributor who brings energy and togetherness to every club initiative.</p>
+            </div>
+            <div class="member">
+                <img src="shalini.jpeg">
+                <h3>Shalini R</h3>
+                <span class="role">Director - Community Service</span>
+                <p class="bio">A changemaker committed to creating sustainable impact within the community</p>
+            </div>
+            <div class="member">
+                <img src="bhuveneshwari.jpeg">
+                <h3>Bhuvaneshwari S</h3>
+                <span class="role">Director - Community Service</span>
+                <p class="bio">A compassionate individual driven to turn service into meaningful community development.</p>
+            </div>
+            <div class="member">
+                <img src="nithyasri.jpeg">
+                <h3>Nithya Sri</h3>
+                <span class="role">Director - Professional Develop</span>
+                <p class="bio">A growth-driven individual who believes developing people is the foundation of progress.</p>
+            </div>
+            <div class="member">
+                <img src="mahalakshmi.jpeg" style="object-position: 0% 20%;">
+                <h3>Mahalakshmi S</h3>
+                <span class="role">Director - Professional Develop</span>
+                <p class="bio">A motivated leader focused on empowering others with knowledge and opportunities.</p>
+            </div>
+            <div class="member">
+                <img src="bharaniya.jpeg">
+                <h3>Bharaniya S</h3>
+                <span class="role">Director - Professional Develop</span>
+                <p class="bio">A passionate learner committed to helping others discover and develop their potential.</p>
+            </div>
+            <div class="member">
+                <img src="sharmi marina.jpeg">
+                <h3>Sharmi Marina J</h3>
+                <span class="role">International Service Director</span>
+                <p class="bio">A collaborative individual who connects cultures, ideas, and service.</p>
+            </div>
+            <div class="member">
+                <img src="hiresh.jpeg" style="object-position: 0% 20%;">
+                <h3>Hiresh Kumar K</h3>
+                <span class="role">International Service Director</span>
+                <p class="bio">A global-minded Rotaractor who values collaboration beyond boundaries.</p>
+            </div>
+            <div class="member">
+                <img src="poonguzhali.jpeg">
+                <h3>Poonguzhali R</h3>
+                <span class="role">Digital Service Director</span>
+                <p class="bio">A tech-driven mind using innovation to connect people and strengthen service.</p>
+            </div>
+            <div class="member">
+                <img src="gangesha.jpeg">
+                <h3>Gangesha A R</h3>
+                <span class="role">Serget - At - Arms
+                </span>
+                <p class="bio">A disciplined individual committed to maintaining order and the spirit of fellowship.</p>
+            </div>
+            <div class="member">
+                <img src="harini.jpeg">
+                <h3>Harini M</h3>
+                <span class="role">Sergent - At - Arms</span>
+                <p class="bio">A responsible Rotaractor who brings discipline, coordination, and dedication to the club.</p>
+            </div>
+            <div class="member">
+                <img src="keerthick.jpeg">
+                <h3>Keerthik R</h3>
+                <span class="role">Bulletin Editor</span>
+                <p class="bio">A creative storyteller who turns the club’s efforts into stories worth remembering.</p>
+            </div>
+            <div class="member">
+                <img src="kavin.jpeg">
+                <h3>Kavin E</h3>
+                <span class="role">Club Editor</span>
+                <p class="bio">A creative mind with the vision to give every club initiative its own identity.</p>
+            </div>
+            <div class="member">
+                <img src="padmavathi1.jpeg">
+                <h3>Subashri N</h3>
+                <span class="role">Women Empowerment - Chairman</span>
+                <p class="bio">A passionate advocate committed to creating opportunities and empowering women.</p>
+            </div>
+            <div class="member">
+                <img src="padmavathi2.jpeg" style="object-position: 0% 20%;">
+                <h3>Padmavathi D</h3>
+                <span class="role">Women Empowerment - Chairman</span>
+                <p class="bio">A determined changemaker working towards confidence, equality, and opportunity for all.</p>
+            </div>
+            <div class="member">
+                <img src="padmavathi.jpeg">
+                <h3>Keerthana S</h3>
+                <span class="role">Public Relation Officer</span>
+                <p class="bio">A confident communicator who builds connections and amplifies the club’s impact.</p>
+            </div>
+            <div class="member">
+                <img src="krishnaraj.jpeg">
+                <h3>Krishnaraj M</h3>
+                <span class="role">RYLA - Chairman</span>
+                <p class="bio">A young leader committed to creating experiences that shape tomorrow’s leaders.</p>
+            </div>
+            <div class="member">
+                <img src="sano.jpeg">
+                <h3>Sanogikan M</h3>
+                <span class="role">District Project - Chairman</span>
+                <p class="bio">A service-driven leader who turns collective efforts into meaningful district-wide impact.</p>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3><img src="1000189159.svg" alt="Rotaract Logo" style="height: 54px; width: 170px;"></h3>
+                <p>Service above self.</p>
+                <p class="footer-text">A youth-led organization dedicated to leadership, service, and creating meaningful community impact through action.</p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Our Focus</h4>
+                <ul>
+                    <li><a href="projects.html">Education</a></li>
+                    <li><a href="projects.html">Health</a></li>
+                    <li><a href="projects.html">Environment</a></li>
+                    <li><a href="projects.html">Leadership</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://www.facebook.com/share/19NALy8tgG/" target="_blank" rel="noreferrer">Facebook</a></li>
+                    <li><a href="https://www.instagram.com/racaut14/" target="_blank" rel="noreferrer">Instagram</a></li>
+                    <li><a href="https://www.linkedin.com/company/rotaract-club-of-anna-university/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                    <li><a href="https://www.youtube.com/@RotaractClubofAnnaUniversity" target="_blank" rel="noreferrer">YouTube</a></li>
+                    <li><a href="https://www.threads.com/@racaut13" target="_blank" rel="noreferrer">Threads</a></li>
+                    <li><a href="https://open.spotify.com/show/1uTZvoVrS02NtrPVtQoyVp" target="_blank" rel="noreferrer">Spotify</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">&copy; 2026 Rotaract Club of Anna University. All rights reserved.</div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+        function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+    </script>
+</body>
+</html>

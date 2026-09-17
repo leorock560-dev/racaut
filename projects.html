@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Rotaract Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+    <style>
+        :root { --primary: #FFA500; --dark: #1a1a1a; --light: #fafafa; --gray: #e5e5e5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { color: var(--dark); background: #fff; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .btn, button, .card, .event-card, .member, .content-box, .event-content, .featured, .project-modal, form, .location-map { border-radius: 16px; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 1.5rem 5%; border-bottom: 1px solid transparent; transition: 0.3s; display: flex; justify-content: space-between; align-items: center; }
+        nav.scrolled { padding: 1rem 5%; border-bottom: 1px solid var(--gray); }
+        .logo { font-size: 1.5rem; font-weight: 800; } .logo span { color: var(--primary); }
+        .menu { display: flex; gap: 2rem; list-style: none; }
+        .menu a { font-weight: 500; font-size: 0.95rem; position: relative; }
+        .menu a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary); transition: 0.3s; }
+        .menu a:hover::after, .menu a.active::after { width: 100%; }
+        .mobile-toggle { display: none; cursor: pointer; font-size: 1.5rem; }
+        
+        .page-header { padding: 8rem 5% 4rem; text-align: center; background: var(--light); }
+        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        
+        section { padding: 4rem 5%; max-width: 1400px; margin: 0 auto; }
+        .featured { display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem; background: var(--light); padding: 3rem; border-radius: 20px; margin-bottom: 4rem; align-items: center; }
+        .featured img { width: 100%; border-radius: 15px; height: 400px; object-fit: cover; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { border: 1px solid var(--gray); border-radius: 15px; overflow: hidden; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+        .card img { width: 100%; height: 250px; object-fit: cover; }
+        .card-body { padding: 2rem; }
+        .tag { display: inline-block; background: var(--light); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; margin-right: 0.5rem; color: #ffffff; border-radius: 10px; }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+            z-index: 2000;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .project-modal {
+            width: min(760px, 100%);
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            transform: translateY(25px) scale(0.96);
+            transition: 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .modal-overlay.active .project-modal {
+            transform: translateY(0) scale(1);
+        }
+        .modal-media {
+            background: #f5f5f5;
+            min-height: 100%;
+        }
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            display: block;
+        }
+        .modal-content {
+            padding: 2rem 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .modal-header h3 {
+            font-size: clamp(1.6rem, 2vw, 2.2rem);
+            margin: 0;
+        }
+        .close-modal {
+            border: none;
+            background: var(--light);
+            color: var(--dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1rem 0 1.25rem;
+        }
+        .modal-meta span {
+            background: #fff7cf;
+            color: #6a5200;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            padding: 0.4rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .modal-content p {
+            color: #4a4a4a;
+            margin-bottom: 1rem;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 1.5rem;
+        }
+        .modal-actions button,
+        .modal-actions a {
+            border: none;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 0.9rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        footer { background: linear-gradient(180deg, #101010 0%, #1a1a1a 100%); color: #fff; padding: 4rem 5% 2rem; margin-top: 4rem; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.7fr 1fr 1fr 1.3fr; gap: 3rem; }
+        .footer-brand h3 { font-size: clamp(1.8rem, 2vw, 2.3rem); font-weight: 800; margin-bottom: 0.6rem; }
+        .footer-brand h3 span { color: var(--primary); }
+        .footer-brand p { color: rgba(255,255,255,0.7); margin-bottom: 0.8rem; }
+        .footer-text { max-width: 420px; }
+        .footer-links h4 { font-size: 1.05rem; margin-bottom: 1rem; color: #fff; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a { color: rgba(255,255,255,0.7); }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-bottom { max-width: 1400px; margin: 0 auto; text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+
+        @media (max-width: 768px) {
+            .featured { grid-template-columns: 1fr; }
+            .menu { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background: #fff; flex-direction: column; padding: 5rem 2rem; transition: 0.3s; }
+            .menu.active { right: 0; }
+            .mobile-toggle { display: block; }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+            .footer-brand { grid-column: 1 / -1; }
+        }
+        @media (max-width: 480px) {
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="logo"><img src="1000189154.svg" alt="Rotaract Logo" style="height: 60px; width: 180px;"></a>
+        <div class="mobile-toggle" onclick="toggleMenu()">☰</div>
+        <ul class="menu" id="navMenu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>Our Projects</h1>
+        <p>From education to healthcare, see how we're making a difference.</p>
+    </div>
+
+    <section>
+        <div class="featured">
+            <img src="bookcover.jpeg">
+            <div>
+                <h2>Team Trailblazer</h2>
+                <p>A collection of the projects, initiatives, and experiences that shaped our journey over the past year. This book brings together the efforts of our Rotaractors, the communities we served, and the moments that turned ideas into action. More than a record of activities, it reflects a year of teamwork, leadership, service, and meaningful impact.</p>
+                <div style="margin: 1.5rem 0;">
+                    <span class="tag" style="color: #fff; border-radius: 10px;">1000+ Lives Touched</span>
+                    <span class="tag" style="color: #fff; border-radius: 10px;">200+ Projects</span>
+                </div>
+                <button class="btn open-modal" data-title="Team Trailblazer" data-image="Screenshot 2026-09-17 073128.png
+                " data-description="A glimpse into the initiatives and experiences that defined our year. This collection showcases the passion, teamwork, and commitment of our members as they came together to create meaningful experiences and serve the community." data-meta="Club Service, Community Service, Professional Development, International Service" style="background: var(--primary); padding: 0.8rem 2rem; display: inline-block; border-radius: 5px; font-weight: 600; border: none; cursor: pointer;"><i class="fa-sharp fa-solid fa-circle-info"></i> View Details</button>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; margin-bottom: 3rem;">All Initiatives</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="ryla.jpeg">
+                <div class="card-body">
+                    <h3>RYLA - Rotaract Youth Leadership Awards</h3>
+                    <p>Developing the leadership qualities.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Leadership</span><span class="tag">Professional</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="tree.jpeg">
+                <div class="card-body">
+                    <h3>Green Tomorrow</h3>
+                    <p>Tree plantation drives and waste management workshops.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Environment</span><span class="tag">Sustainability</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="eps.jpeg">
+                <div class="card-body">
+                    <h3>Effective Public Speaking</h3>
+                    <p>Vocational training for communication and employability.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Employment</span><span class="tag">Youth</span></div>
+                </div>
+            </div>
+             <div class="card">
+                <img src="blood d.jpeg">
+                <div class="card-body">
+                    <h3>Blood Donation
+                    </h3>
+                    <p>Providing blood on-call throughout the city.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Health</span><span class="tag">Blood</span></div>
+                </div>
+            </div>
+             <div class="card">
+                <img src="air.jpeg">
+                <div class="card-body">
+                    <h3>All India Radio</h3>
+                    <p>A Radio Jockey Event focuses on engineering and skills.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Radio</span><span class="tag">
+                        Communication
+                    </span></div>
+                </div>
+            </div>
+             <div class="card">
+                <img src="teamout.jpeg">
+                <div class="card-body">
+                    <h3>Team Outing</h3>
+                    <p>A casual visit to Kanyakumari.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Club Service</span><span class="tag">
+                        Entertainment
+                    </span></div>
+                </div>
+            </div>
+             <div class="card">
+                <img src="shuttle.jpeg">
+                <div class="card-body">
+                    <h3>Shuttle Tournament</h3>
+                    <p>Vocational training for youth empowerment and employability.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Sports</span><span class="tag">Fitness</span></div>
+                </div>
+            </div>
+             <div class="card">
+                <img src="blanket.jpeg">
+                <div class="card-body">
+                    <h3>Blanket Donation</h3>
+                    <p>An act on charity.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Donation</span><span class="tag">Community</span></div>
+                </div>
+            </div>
+             <div class="card">
+                <img src="physical.jpeg">
+                <div class="card-body">
+                    <h3>Physical Meeting</h3>
+                    <p>Meeting for the development and service to the society.</p>
+                    <div style="margin-top: 1rem;"><span class="tag">Club Service</span><span class="tag">Casual</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3><img src="1000189159.svg" alt="Rotaract Logo" style="height: 54px; width: 170px;"></h3>
+                <p>Service above self.</p>
+                <p class="footer-text">A youth-led organization dedicated to leadership, service, and creating meaningful community impact through action.</p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Our Focus</h4>
+                <ul>
+                    <li><a href="projects.html">Education</a></li>
+                    <li><a href="projects.html">Health</a></li>
+                    <li><a href="projects.html">Environment</a></li>
+                    <li><a href="projects.html">Leadership</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://www.facebook.com/share/19NALy8tgG/" target="_blank" rel="noreferrer">Facebook</a></li>
+                    <li><a href="https://www.instagram.com/racaut14/" target="_blank" rel="noreferrer">Instagram</a></li>
+                    <li><a href="https://www.linkedin.com/company/rotaract-club-of-anna-university/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                    <li><a href="https://www.youtube.com/@RotaractClubofAnnaUniversity" target="_blank" rel="noreferrer">YouTube</a></li>
+                    <li><a href="https://www.threads.com/@racaut13" target="_blank" rel="noreferrer">Threads</a></li>
+                    <li><a href="https://open.spotify.com/show/1uTZvoVrS02NtrPVtQoyVp" target="_blank" rel="noreferrer">Spotify</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">&copy; 2026 Rotaract Club of Anna University. All rights reserved.</div>
+    </footer>
+
+    <div class="modal-overlay" id="projectModal">
+        <div class="project-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-media">
+                <img id="modalImage" class="modal-image" src="" alt="Project detail">
+            </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Team Trailblazer</h3>
+                    <button class="close-modal" type="button" aria-label="Close details">&times;</button>
+                </div>
+                <div class="modal-meta" id="modalMeta"></div>
+                <p id="modalDescription"></p>
+                <div class="modal-actions">
+                    <button type="button" onclick="window.location.href='contact.html'"><i class="fa-sharp fa-solid fa-download"></i> Download Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+        function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalImage = document.getElementById('modalImage');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalMeta = document.getElementById('modalMeta');
+        const closeModalBtn = document.querySelector('.close-modal');
+
+        document.querySelectorAll('.open-modal').forEach(button => {
+            button.addEventListener('click', () => {
+                modalTitle.textContent = button.dataset.title;
+                modalImage.src = button.dataset.image;
+                modalDescription.textContent = button.dataset.description;
+                modalMeta.innerHTML = '';
+
+                button.dataset.meta.split(',').forEach(item => {
+                    const chip = document.createElement('span');
+                    chip.textContent = item.trim();
+                    modalMeta.appendChild(chip);
+                });
+
+                modal.classList.add('active');
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
